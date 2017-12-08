@@ -54,31 +54,32 @@ void loop()
   }
   while(CALIBRATE==1){
   digitalWrite(RDY, HIGH);
-  if(irrecv.decode(&results)==CALP[1]){
+    irrecv.decode(&results)
+  if(results.value==CALP[1]){
     Serial.println("SHOT1");
     Serial.println(results.value, HEX);
     irrecv.resume(); // Receive the next value
   }
-  if(irrecv.decode(&results)==CALP[2]){
+  if(results.value==CALP[2]){
     Serial.println("SHOT2");
     Serial.println(results.value, HEX);
     irrecv.resume(); // Receive the next value
   }
-  if(irrecv.decode(&results)==CALP[3]){
+  if(results.value==CALP[3]){
     Serial.println("SHOT3");
     Serial.println(results.value, HEX);
     irrecv.resume(); // Receive the next value
   }
-  if(irrecv.decode(&results)==CALP[4]){
+  if(results.value==CALP[4]){
     Serial.println("SHOT4");
     Serial.println(results.value, HEX);
     irrecv.resume(); // Receive the next value
   }
-  //if(irrecv.decode(&results)==CALP[5]){
-    //Serial.println("Pašove5");
-   // Serial.println(results.value, HEX);
-    //irrecv.resume(); // Receive the next value
- // }
+  if(results.value==CALP[5]){
+    Serial.println("Pašove5");
+    Serial.println(results.value, HEX);
+    irrecv.resume(); // Receive the next value
+  }
   buttonState = digitalRead(BTN);
   if (buttonState == HIGH) {
     CALIBRATE=0;
