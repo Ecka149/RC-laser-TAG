@@ -84,6 +84,7 @@ void loop()
   if (buttonState == HIGH) {
     CALIBRATE=0;
     }
+  irrecv.resume();
   }
 }
 
