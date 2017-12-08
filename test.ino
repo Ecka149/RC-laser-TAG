@@ -11,7 +11,7 @@ int RDY=3; //Ready indicator GREEN
 int SHT=4; //Shot/Calibrating Indicator Blue
 int RECV_PIN = 12; //IR Receiver pin
 int BTN=5; // Button pin
-unsigned int CALP[]={0,0,0,0,0}; // Calibration points
+unsigned long CALP[]={0,0,0,0,0}; // Calibration points
 int buttonState;
 int CALIBRATE=0; //Calibration not done setting
 IRrecv irrecv(RECV_PIN);
