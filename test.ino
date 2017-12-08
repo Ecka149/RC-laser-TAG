@@ -52,6 +52,7 @@ void loop()
   irrecv.resume(); // Receive the next value
   CALIBRATE=1;
   }
+  /*
   while(CALIBRATE==1){
   digitalWrite(RDY, HIGH);
     irrecv.decode(&results)
@@ -87,9 +88,11 @@ void loop()
   irrecv.resume();
   }
 }
-
-  /*
-  switch (CALP[]){
+*/
+   
+  while(CALIBRATE==1){ 
+  irrecv.decode(&results);
+  switch (results.value){
     case CALP[1]:
       Serial.println("PAMUŠO1");
       break;
@@ -105,8 +108,16 @@ void loop()
     case CALP[5]:
       Serial.println("PAMUŠO5");
       break;
+    default:
+      buttonState = digitalRead(BTN);
+      if (buttonState == HIGH) {
+        CALIBRATE=0;
+      }
+     irrecv.resume();
+      break;
+    }
   }
-  */
+}
 
 
 
