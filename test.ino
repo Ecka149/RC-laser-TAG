@@ -1,13 +1,19 @@
+/*------------------------------------------
+Thanks for contributing to this project, if you have any suggestions, or bug fixes, pm me at github.
+This is just a prototype, with IR module. Needs RGB led for an indication of what is happening, and of course a button, for enablng calibration.
+Calibrations is done by five steps, which sets the five coresponding codes, which should be the shot code.
+
+/----------------------------------------*/
 #include <IRremote.h>
 
-int CAL=2;
-int RDY=3;
-int SHT=4;
-int RECV_PIN = 12;
-int BTN=5;
-unsigned int CALP[]={0,0,0,0,0};
+int CAL=2; //CALIBRATION indicator RED  
+int RDY=3; //Ready indicator GREEN
+int SHT=4; //Shot/Calibrating Indicator Blue
+int RECV_PIN = 12; //IR Receiver pin
+int BTN=5; // Button pin
+unsigned int CALP[]={0,0,0,0,0}; // Calibration points
 int buttonState;
-int CALIBRATE=0;
+int CALIBRATE=0; //Calibration not done setting
 IRrecv irrecv(RECV_PIN);
 decode_results results;
 
@@ -49,22 +55,22 @@ void loop()
   while(CALIBRATE==1){
   digitalWrite(RDY, HIGH);
   if(irrecv.decode(&results)==CALP[1]){
-    Serial.println("Pašove1");
+    Serial.println("SHOT1");
     Serial.println(results.value, HEX);
     irrecv.resume(); // Receive the next value
   }
   if(irrecv.decode(&results)==CALP[2]){
-    Serial.println("Pašove2");
+    Serial.println("SHOT2");
     Serial.println(results.value, HEX);
     irrecv.resume(); // Receive the next value
   }
   if(irrecv.decode(&results)==CALP[3]){
-    Serial.println("Pašove3");
+    Serial.println("SHOT3");
     Serial.println(results.value, HEX);
     irrecv.resume(); // Receive the next value
   }
   if(irrecv.decode(&results)==CALP[4]){
-    Serial.println("Pašove4");
+    Serial.println("SHOT4");
     Serial.println(results.value, HEX);
     irrecv.resume(); // Receive the next value
   }
@@ -105,29 +111,19 @@ void loop()
   void Calibration(int nr){
     if (irrecv.decode(&results))
     {
-     Serial.println(nr);
      digitalWrite(CAL, HIGH);
-     Serial.println(results.value, HEX);
+     Serial.println(nr);
+     delay(1000);
+     irrecv.resume();
+     irrecv.decode(&results);
+     CALP[nr]=results.value;
+     Serial.println(results.value);
      digitalWrite(SHT, HIGH);
      delay(500);
-     CALP[nr]=results.value;
+     Serial.println(CALP[nr]);
      digitalWrite(SHT, LOW);
      delay(500);
      irrecv.resume(); // Receive the next value
     }
     else Calibration(nr);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
